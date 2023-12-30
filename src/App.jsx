@@ -10,20 +10,23 @@ function App() {
   const [catLeader, setCatLeader] = React.useState({name: "-", country: "-", key: "-", count: 0}); // {name: xxx, country: xxx, key:xxx, count: xxx}
 
   const handleDelete = (key, deleteCount) => {
-    setCatStack(c => c.filter(el => el.key !== key));
+    setCatStack(c => {
+      const newStackAfterDelete = c.filter(el => el.key !== key);
+      evaLeader(newStackAfterDelete);
+      return newStackAfterDelete;
+    });
     setTotalCat(c => c - 1);
     // console.log(deleteCount);
     setTotalCount(c => c - deleteCount);
   }
 
-  const evaLeader = (newItem) => {
-    // console.log(newItem);
-    // console.log(catStack);
-    // let maxObj = obj.reduce((acc, el) => {
-    //   acc = acc.count > el.count ? acc : el;
-    //   return acc;
-    // },obj[0])
-    // setCatLeader({...maxObj});
+  const evaLeader = (cloneCatStack) => {
+    // console.log(cloneCatStack);
+    let maxObj = cloneCatStack.reduce((acc, el) => {
+      acc = acc.count > el.count ? acc : el;
+      return acc;
+    },cloneCatStack[0])
+    setCatLeader({...maxObj});
   }
 
   const catRender = catStack.map(el => 

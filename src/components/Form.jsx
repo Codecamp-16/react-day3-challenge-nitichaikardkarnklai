@@ -10,8 +10,8 @@ function Form(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log("submit");
-        console.log(nanoid());
+        // console.log("submit");
+        // console.log(nanoid());
     
         if(catName.trim() && catCountry.trim()){
           setShowFaultInput(false);

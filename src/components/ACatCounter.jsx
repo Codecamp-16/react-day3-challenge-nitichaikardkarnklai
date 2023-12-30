@@ -9,6 +9,7 @@ function ACatCounter(props) {
       props.setCatStack( () => {
         const cloneCatStack = props.catStack;
         cloneCatStack[objIndex].count = newItem.count;
+        props.evaLeader(cloneCatStack);
         return cloneCatStack;
       });
     }
@@ -62,7 +63,7 @@ function ACatCounter(props) {
             onClick = {handleClickReset}
             className='px-4 py-2 bg-slate-500 rounded-md'>reset</button>
           <button 
-            onClick = {() => {handleClickMinus(); props.evaLeader();}}
+            onClick = {handleClickMinus}
             className='px-4 py-2 bg-slate-500 rounded-md'>-</button>
           <button 
             // onClick = {() => {handleClickAdd(); props.evaLeader();}}
