@@ -6,12 +6,10 @@ function Form(props) {
     const [catCountry, setCatCountry] = React.useState("");
     const [showFaultInput, setShowFaultInput] =  React.useState("");
 
-    const {catStack, setCatStack, totalCat, setTotalCat} = props;
+    const {catStack, setCatStack, totalCat, setTotalCat, evaLeader} = props;
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // console.log("submit");
-        // console.log(nanoid());
     
         if(catName.trim() && catCountry.trim()){
           setShowFaultInput(false);
@@ -22,11 +20,13 @@ function Form(props) {
             key: nanoid(),
             count: 0
           };
-          setCatStack(c => [...c, newCatCard]);
-    
+          setTotalCat(c => c + 1);
+          const newCatStack = [...catStack, newCatCard]
+          setCatStack(newCatStack);
+          evaLeader(newCatStack);
+
           setCatName("");
           setCatCountry("");
-          setTotalCat(c => c + 1)
         } else {
           setShowFaultInput("ได้โปรด... ใส่ข้อมูลให้ครบทุกช่องขอรับครับกระผม");
         }
