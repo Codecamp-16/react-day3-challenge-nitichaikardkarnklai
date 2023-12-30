@@ -2,21 +2,34 @@ import React from 'react'
 
 function ACatCounter(props) {
 
-    const [count, setCount] = React.useState(0);
-    const {name,country,key} = props.catItem;
+    const [item, setItem] = React.useState(props.catItem);
+
+    const updateCatStack = (newItem) => {
+      const objIndex = props.catStack.findIndex(obj => obj.key == item.key);
+      props.setCatStack( () => {
+        const cloneCatStack = props.catStack;
+        cloneCatStack[objIndex].count = newItem.count;
+        return cloneCatStack;
+      });
+    }
 
     const handleClickAdd = () => {
       props.setTotalCount(c => c + 1);
-      setCount(c => c + 1);
-
+      const newItem = {...item, count : item.count + 1};
+      setItem(newItem)
+      updateCatStack(newItem);
     }
     const handleClickMinus = () => {
       props.setTotalCount(c => c - 1);
-      setCount(c => c - 1);
+      const newItem = {...item, count : item.count - 1};
+      setItem(newItem)
+      updateCatStack(newItem);
     }
     const handleClickReset = () => {
-      props.setTotalCount(c => c - count);
-      setCount(0);
+      props.setTotalCount(c => c - item.count);
+      const newItem = {...item, count : 0};
+      setItem(newItem)
+      updateCatStack(newItem);
     }
 
   return (
@@ -25,7 +38,7 @@ function ACatCounter(props) {
       <div className='flex justify-between items-center border border-gray-200 rounded-lg p-4 shadow-lg relative'>
         {/* Remove Cat */}
         <div 
-        onClick={(el) => props.onDelete(key, count)}
+        onClick={() => props.onDelete(item.key, item.count)}
         className='absolute top-[-15px] right-[-15px] bg-red-400 text-white  w-[30px] h-[30px] rounded-full text-center align-middle cursor-pointer '>
           x
         </div>
@@ -40,8 +53,8 @@ function ACatCounter(props) {
         </div>
         {/* Cat Profile & Count*/}
         <div className='flex-1 px-4'>
-          <p className='text-2xl'>{name} : {country}</p>
-          <p>count : {count}</p>
+          <p className='text-2xl'>{item.name} : {item.country}</p>
+          <p>count : {item.count}</p>
         </div>
         <div className='flex gap-1'>
           {/* Button Group */}
@@ -49,10 +62,11 @@ function ACatCounter(props) {
             onClick = {handleClickReset}
             className='px-4 py-2 bg-slate-500 rounded-md'>reset</button>
           <button 
-            onClick = {() => {handleClickMinus(); props.evaLeader(props.catItem, count - 1);}}
+            onClick = {() => {handleClickMinus(); props.evaLeader();}}
             className='px-4 py-2 bg-slate-500 rounded-md'>-</button>
           <button 
-            onClick = {() => {handleClickAdd(); props.evaLeader(props.catItem, count + 1);}}
+            // onClick = {() => {handleClickAdd(); props.evaLeader();}}
+            onClick = {handleClickAdd}
             className='px-4 py-2 bg-slate-500 rounded-md'>+</button>
         </div>
       </div>

@@ -19,7 +19,8 @@ function Form(props) {
           const newCatCard = {
             name: catName, 
             country: catCountry, 
-            key: nanoid()
+            key: nanoid(),
+            count: 0
           };
           setCatStack(c => [...c, newCatCard]);
     

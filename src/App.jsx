@@ -4,33 +4,35 @@ import Form from "./components/Form";
 
 function App() {
 
-  const [catStack, setCatStack] = React.useState([]); // {name: xxx, country: xxx, key:xxx}
+  const [catStack, setCatStack] = React.useState([]); // {name: xxx, country: xxx, key:xxx, count:xxx}
   const [totalCat, setTotalCat] = React.useState(0);
   const [totalCount, setTotalCount] = React.useState(0);
   const [catLeader, setCatLeader] = React.useState({name: "-", country: "-", key: "-", count: 0}); // {name: xxx, country: xxx, key:xxx, count: xxx}
-  let catCandidate = {name: "", country: "", key: "", count: 0}; // {name: xxx, country: xxx, key:xxx, count: xxx}
 
   const handleDelete = (key, deleteCount) => {
     setCatStack(c => c.filter(el => el.key !== key));
     setTotalCat(c => c - 1);
+    // console.log(deleteCount);
     setTotalCount(c => c - deleteCount);
   }
 
-  const evaLeader = (catItem, count) => {
-    catCandidate = {...catItem, count : count};
-
-    // if (catLeader.count < catCandidate.count) {
-    //   setCatLeader({...catCandidate});
-    // } else if (catLeader.key == catCandidate.key) {
-    //   setCatLeader({...catCandidate});
-    // }
+  const evaLeader = (newItem) => {
+    // console.log(newItem);
+    // console.log(catStack);
+    // let maxObj = obj.reduce((acc, el) => {
+    //   acc = acc.count > el.count ? acc : el;
+    //   return acc;
+    // },obj[0])
+    // setCatLeader({...maxObj});
   }
 
   const catRender = catStack.map(el => 
-    <ACatCounter key={el.key} catItem = {el} onDelete={handleDelete}
+    <ACatCounter key={el.key} catItem = {el} 
+    onDelete={handleDelete}
     totalCount = {totalCount}
     setTotalCount = {setTotalCount}
-
+    catStack = {catStack}
+    setCatStack = {setCatStack}
     evaLeader = {evaLeader}
     />);
 
