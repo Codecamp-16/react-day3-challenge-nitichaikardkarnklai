@@ -1,32 +1,69 @@
+import React, { useState } from "react";
+import ACatCounter from "./components/ACatCounter";
+import Form from "./components/Form";
+
 function App() {
+
+  const [catStack, setCatStack] = React.useState([]); // {name: xxx, country: xxx, key:xxx, count:xxx}
+  const [totalCat, setTotalCat] = React.useState(0);
+  const [totalCount, setTotalCount] = React.useState(0);
+  const [catLeader, setCatLeader] = React.useState([{name: "-", country: "-", key: "", count: 0}]); // {name: xxx, country: xxx, key:xxx, count: xxx}
+
+  const handleDelete = (key, deleteCount) => {
+    setCatStack(c => {
+      const newStackAfterDelete = c.filter(el => el.key !== key);
+      evaLeader(newStackAfterDelete);
+      return newStackAfterDelete;
+    });
+    setTotalCat(c => c - 1);
+    setTotalCount(c => c - deleteCount);
+  }
+
+  const evaLeader = (cloneCatStack) => {
+    // console.log(cloneCatStack);
+    const maxObj = cloneCatStack.reduce((acc, el) => {
+      acc = acc.count > el.count ? acc : el;
+      return acc;
+    },cloneCatStack[0])
+    const tempCatLeader = cloneCatStack.filter(el => el.count == maxObj.count);
+    // console.log(tempCatLeader);
+    setCatLeader(tempCatLeader);
+  }
+
+  const catRender = catStack.map(el => 
+    <ACatCounter key={el.key} catItem = {el} 
+    onDelete={handleDelete}
+    totalCount = {totalCount}
+    setTotalCount = {setTotalCount}
+    catStack = {catStack}
+    setCatStack = {setCatStack}
+    evaLeader = {evaLeader}
+    />);
+
+  function Leader() { return (<ul>{leaderComponent}</ul>)}
+  const leaderComponent = catLeader.map((el)=> {
+      return (<div key={el.key}> {el.name} from {el.country}</div>)});
+
   return (
-    <div className='p-4'>
-      {/* แมว 1 ตัว */}
-      <div className='flex justify-between items-center border border-gray-200 rounded-lg p-4 shadow-lg relative'>
-        {/* Remove Cat */}
-        <div className='absolute top-[-15px] right-[-15px] bg-red-400 text-white  w-[30px] h-[30px] rounded-full text-center align-middle cursor-pointer '>
-          x
+    <div className="main">
+      <div className="dashboard">
+        <h1>POP CAT CHALLENGE</h1>
+        <div className="panel">
+            <div>Total Cat: <div className="bigNum">{totalCat}</div></div>
+            <div>Total Count: <div className="bigNum">{totalCount}</div></div>
+            <div>Highest Click: <div className="bigNum">{catLeader[0]?.count}</div></div>
+            <div>Cat Leader: <div className="leader"><Leader /></div></div>
         </div>
-        <div>
-          {/* Cat Image */}
-          <div className='w-[100px]'>
-            <img
-              className='w-full h-auto object-cover rounded-lg'
-              src='https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=4086&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-            />
-          </div>
-        </div>
-        {/* Cat Profile & Count*/}
-        <div className='flex-1 px-4'>
-          <p className='text-2xl'>Name : Country</p>
-          <p>count : 0</p>
-        </div>
-        <div className='flex gap-1'>
-          {/* Button Group */}
-          <button className='px-4 py-2 bg-slate-500 rounded-md'>reset</button>
-          <button className='px-4 py-2 bg-slate-500 rounded-md'>-</button>
-          <button className='px-4 py-2 bg-slate-500 rounded-md'>+</button>
-        </div>
+      </div>
+      <Form 
+        catStack={catStack} 
+        setCatStack={setCatStack} 
+        totalCat={totalCat} 
+        setTotalCat={setTotalCat}
+        evaLeader={evaLeader}
+      />
+      <div className="catStack">
+        {catRender}
       </div>
     </div>
   );
