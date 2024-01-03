@@ -51,7 +51,7 @@ function App() {
         <div className="panel">
             <div>Total Cat: <div className="bigNum">{totalCat}</div></div>
             <div>Total Count: <div className="bigNum">{totalCount}</div></div>
-            <div>Highest Click: <div className="bigNum">{catLeader[0].count}</div></div>
+            <div>Highest Click: <div className="bigNum">{catLeader[0]?.count}</div></div>
             <div>Cat Leader: <div className="leader"><Leader /></div></div>
         </div>
       </div>
